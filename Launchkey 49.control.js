@@ -8,50 +8,50 @@ host.addDeviceNameBasedDiscoveryPair(["Launchkey 49 MIDI 1", "Launchkey 49 MIDI 
 load("launchkey_common.js");
 
 function init() {
-   // host.getMidiInPort(0).createNoteInput("Launchkey 49", "80????", "90????", "B001??", "D0????", "E0????");
-   // host.getMidiInPort(0).createNoteInput("Launchkey Pads", "89????", "99????");
+   host.getMidiInPort(0).createNoteInput("Launchkey 49", "80????", "90????", "B001??", "D0????", "E0????");
+   host.getMidiInPort(0).createNoteInput("Launchkey Pads", "89????", "99????");
 
    host.getMidiInPort(0).setMidiCallback(onMidi0);
    host.getMidiInPort(1).setMidiCallback(onMidi1);
 
-	// transport = host.createTransportSection();
+	transport = host.createTransportSection();
 
- //   cursorTrack = host.createCursorTrackSection(0, 8);
- //   masterTrack = host.createMasterTrackSection(0);
+   cursorTrack = host.createCursorTrackSection(0, 8);
+   masterTrack = host.createMasterTrackSection(0);
 
- //   primaryDevice = cursorTrack.getPrimaryDevice();
+   primaryDevice = cursorTrack.getPrimaryDevice();
 
- //   primaryDevice.addSelectedPageObserver(-1, function(value)
- //   {
- //      selectedPage = value;
- //   });
+   primaryDevice.addSelectedPageObserver(-1, function(value)
+   {
+      selectedPage = value;
+   });
 
- //   primaryDevice.addPageNamesObserver(function()
- //   {
- //      numParameterPages = arguments.length;
- //   });
+   primaryDevice.addPageNamesObserver(function()
+   {
+      numParameterPages = arguments.length;
+   });
 
- //   trackBank = host.createTrackBankSection(8, 0, 0);
+   trackBank = host.createTrackBankSection(8, 0, 0);
 
- //   for(var p=0; p<8; p++)
- //   {
- //      var modSource = primaryDevice.getModulationSource(p);
- //      modSource.addIsMappingObserver(modSourceStates.setter(p));
- //   }
+   for(var p=0; p<8; p++)
+   {
+      var modSource = primaryDevice.getModulationSource(p);
+      modSource.addIsMappingObserver(modSourceStates.setter(p));
+   }
 
- //   userControls = host.createUserControlsSection(8);
+   userControls = host.createUserControlsSection(8);
 
- //   for(var p=0; p<8; p++)
- //   {
- //      userControls.getControl(p).setLabel("User " + (p + 1));
- //   }
+   for(var p=0; p<8; p++)
+   {
+      userControls.getControl(p).setLabel("User " + (p + 1));
+   }
 
-   // host.getMidiOutPort(1).sendMidi(0x9F, 0x0C, 0x7F);
+   // Turn extended mode on.
    host.getMidiOutPort(1).sendMidi(159, 12, 127);
 
- //   updateIndications();
+   updateIndications();
 
- //   host.scheduleTask(blinkTimer, null, 100);
+   host.scheduleTask(blinkTimer, null, 100);
 }
 
 var fastblink = true;
@@ -167,7 +167,6 @@ function onMidi1(status, data1, data2)
       if (data2 == 127)
       {
          // button presses
-
          if (data1 == 102)
          {
             if (incontrol_mix)
